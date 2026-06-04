@@ -18,7 +18,6 @@
             --font-sans: 'Bespoke Sans', sans-serif;
         }
 
-        /* Essential reset ensuring canvas can be seen behind text layers */
         body, html {
             margin: 0;
             padding: 0;
@@ -37,10 +36,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            isolation: isolate; /* Creates clean visual stacking contexts */
+            isolation: isolate;
         }
 
-        /* Canvas must be pinned at the absolute bottom floor of the page */
         canvas {
             position: absolute;
             inset: 0;
@@ -54,7 +52,7 @@
             position: absolute;
             inset: 0;
             background: radial-gradient(circle at center, transparent 0%, var(--color-emerald-dark) 100%);
-            opacity: 0.7;
+            opacity: 0.6;
             pointer-events: none;
             z-index: 1;
         }
@@ -68,7 +66,6 @@
             mix-blend-mode: overlay;
         }
 
-        /* Decorative Frame Border Lines */
         .deco-frame {
             position: absolute;
             inset: 24px;
@@ -82,7 +79,6 @@
         .bottom-left { bottom: -1px; left: -1px; border-bottom: 2px solid var(--color-gold-base); border-left: 2px solid var(--color-gold-base); }
         .bottom-right { bottom: -1px; right: -1px; border-bottom: 2px solid var(--color-gold-base); border-right: 2px solid var(--color-gold-base); }
 
-        /* The UI Layer must have a completely transparent background to reveal the canvas beneath it */
         .ui-layer {
             position: absolute;
             inset: 0;
@@ -90,9 +86,9 @@
             flex-direction: column;
             justify-content: space-between;
             padding: 48px;
-            pointer-events: none; /* Let clicks pass through empty spaces to the solar system parallax */
+            pointer-events: none; 
             z-index: 10; 
-            background: transparent !important; /* FIX: Prevents background blockages */
+            background: transparent !important;
         }
 
         .top-row {
@@ -101,43 +97,18 @@
             justify-content: space-between;
             width: 100%;
         }
-        .brand-space {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin: 0 auto; /* Keeps your logo perfectly centered at the top */
-        }
-        .logo-diamond {
-            width: 32px;
-            height: 32px;
-            border: 1px solid var(--color-gold-base);
-            transform: rotate(45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .logo-dot { width: 4px; height: 4px; background-color: var(--color-gold-base); }
-        .logo-text {
-            font-family: var(--font-serif);
-            font-size: 22px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--color-gold-light);
-        }
 
         .middle-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             width: 100%;
             flex: 1;
             margin: 24px 0;
         }
 
-        /* Glowing Translucent Purple AI Agent Card Setup */
         .ai-agent-portal-card {
-            pointer-events: auto; /* Restores link clicks */
+            pointer-events: auto; 
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -146,7 +117,7 @@
             height: 240px;
             border-radius: 24px;
             text-decoration: none;
-            background: rgba(4, 20, 15, 0.45); /* Balanced dark tint transparency */
+            background: rgba(4, 20, 15, 0.45); 
             border: 2px solid rgba(168, 85, 247, 0.7);
             backdrop-filter: blur(4px);
             -webkit-backdrop-filter: blur(4px);
@@ -174,70 +145,10 @@
             filter: drop-shadow(0 2px 8px rgba(168, 85, 247, 0.5));
         }
 
-        .hero-center-panel {
-            text-align: center;
-            max-w: 500px;
-            margin: 0 auto;
-            pointer-events: auto;
-        }
-        .subtitle-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .line-marker { width: 32px; height: 1px; background-color: rgba(212, 175, 55, 0.4); }
-        .subtitle-text { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--color-gold-base); }
-        
-        .main-heading {
-            font-family: var(--font-serif);
-            font-size: 64px;
-            line-height: 1;
-            margin: 0 0 20px 0;
-            letter-spacing: -0.01em;
-        }
-        .gold-gradient-title {
-            background: linear-gradient(135deg, #fef1c7 0%, #d4af37 50%, #8c7322 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-        }
-        .sub-italic-title {
-            display: block;
-            font-size: 36px;
-            font-weight: 300;
-            color: rgba(254, 241, 199, 0.9);
-            font-style: italic;
-            margin-top: 6px;
-        }
-        .hero-desc { font-size: 14px; font-weight: 300; line-height: 1.6; color: rgba(254, 241, 199, 0.7); max-w: 360px; margin: 0 auto 28px auto; }
-        
-        .btn-commence {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background-color: var(--color-gold-base);
-            color: var(--color-emerald-dark);
-            padding: 14px 28px;
-            text-transform: uppercase;
-            font-size: 10px;
-            letter-spacing: 0.2em;
-            font-weight: 600;
-            text-decoration: none;
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
-            transition: background-color 0.3s;
-        }
-        .btn-commence:hover { background-color: var(--color-gold-light); }
-        .square-dot { width: 4px; height: 4px; background-color: var(--color-emerald-dark); transform: rotate(45deg); }
-
-        .symmetry-spacer { width: 144px; visibility: hidden; }
-
         .bottom-row {
             display: flex;
             align-items: flex-end;
-            justify-content: space-between;
+            justify-content: flex-start;
             width: 100%;
         }
         .btn-about {
@@ -255,11 +166,6 @@
             transition: background 0.3s;
         }
         .btn-about:hover { background: rgba(212, 175, 55, 0.4); }
-
-        .footer-center-mark { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 8px; }
-        .vertical-accent-line { width: 1px; height: 32px; background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.4)); }
-        .footer-diamond { width: 6px; height: 6px; border: 1px solid var(--color-gold-base); transform: rotate(45deg); }
-        .footer-info { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(254, 241, 199, 0.5); text-align: right; line-height: 1.5; }
 
         .btn-hamburger {
             pointer-events: auto;
@@ -329,13 +235,6 @@
                     <div class="bar" style="width: 70%;"></div>
                     <div class="bar"></div>
                 </div>
-
-                <div class="brand-space">
-                    <div class="logo-diamond"><div class="logo-dot"></div></div>
-                    <a href="#" class="logo-text">Aetheria</a>
-                </div>
-
-                <div style="width: 36px; visibility: hidden;"></div>
             </div>
 
             <div class="middle-row">
@@ -343,42 +242,10 @@
                     <iconify-icon icon="lucide:cpu" style="font-size: 32px; color: #c084fc;"></iconify-icon>
                     <span class="shiny-purple-text">Ai<br>agent</span>
                 </a>
-
-                <main class="hero-center-panel">
-                    <div class="subtitle-badge">
-                        <div class="line-marker"></div>
-                        <span class="subtitle-text">The Zenith of Mechanics</span>
-                        <div class="line-marker"></div>
-                    </div>
-                    
-                    <h1 class="main-heading">
-                        <span class="gold-gradient-title">ORRERY</span>
-                        <span class="sub-italic-title">Magnifica</span>
-                    </h1>
-                    
-                    <p class="hero-desc">A masterwork of horological precision and cosmic artistry.</p>
-
-                    <a href="#" class="btn-commence">
-                        Commence Journey
-                        <div class="square-dot"></div>
-                    </a>
-                </main>
-
-                <div class="symmetry-spacer"></div>
             </div>
 
             <div class="bottom-row">
                 <button class="btn-about">About</button>
-
-                <div class="footer-center-mark">
-                    <div class="vertical-accent-line"></div>
-                    <div class="footer-diamond"></div>
-                </div>
-
-                <div class="footer-info">
-                    <span>Est. 1927</span><br/>
-                    <span style="color: var(--color-gold-base);">Metropolis</span>
-                </div>
             </div>
 
         </div>
@@ -416,7 +283,7 @@
             ]
         };
         const orbitCount = 6;
-        const baseTilt = 0.4;
+        const baseTilt = 0.35; // Slightly flatter projection for scale depth
         const planets = [];
 
         function resize() {
@@ -426,14 +293,17 @@
             canvas.width = width * dpr;
             canvas.height = height * dpr;
             ctx.scale(dpr, dpr);
-            centerX = width / 2;
-            centerY = height / 2;
+            
+            // SHIFTED: Moves the center of the system to 62% right to clear the left box
+            centerX = width * 0.62;
+            centerY = height * 0.5;
         }
 
         function initPlanets() {
             planets.length = 0;
-            const maxRadius = Math.min(width, height) * 0.45;
-            const minRadius = Math.min(width, height) * 0.12;
+            // ENLARGED: Max radius boosted from 0.45 to 0.62 for a massive display
+            const maxRadius = Math.min(width, height) * 0.62;
+            const minRadius = Math.min(width, height) * 0.16;
             for (let i = 0; i < orbitCount; i++) {
                 const targetR = minRadius + ((maxRadius - minRadius) / orbitCount) * (i + 1);
                 const startR = targetR + Math.max(width, height) * 1.2;
@@ -443,8 +313,8 @@
                     startRadius: startR,
                     currentRadius: startR,
                     angle: Math.random() * Math.PI * 2,
-                    speed: (Math.random() * 0.002 + 0.001) * (i % 2 === 0 ? 1 : -1),
-                    size: Math.random() * 7 + 5,
+                    speed: (Math.random() * 0.0015 + 0.0008) * (i % 2 === 0 ? 1 : -1),
+                    size: Math.random() * 8 + 6, // Slightly scaled up planet sizes
                     sides: Math.floor(Math.random() * 3) * 2 + 4,
                     colorSet: colors.planets[i % colors.planets.length],
                     rotation: Math.random() * Math.PI,
@@ -508,7 +378,8 @@
         }
 
         function drawSunburst(progress) {
-            const baseSize = Math.min(width, height) * 0.07;
+            // ENLARGED: Core sun size scale slightly boosted
+            const baseSize = Math.min(width, height) * 0.085;
             const size = baseSize + Math.sin(time * 0.05) * (baseSize * 0.04);
             const numRays = 16;
             
@@ -657,11 +528,11 @@
             if (isCollapsing) return;
             const mouseX = e.clientX / width - 0.5;
             const mouseY = e.clientY / height - 0.5;
-            centerX += ((width / 2) + (mouseX * 40) - centerX) * 0.05;
-            centerY += ((height / 2) + (mouseY * 40) - centerY) * 0.05;
+            // Keeps subtle interactive movement tethered around its new right-aligned center anchor
+            centerX += ((width * 0.62) + (mouseX * 40) - centerX) * 0.05;
+            centerY += ((height * 0.5) + (mouseY * 40) - centerY) * 0.05;
         });
 
-        // Toggle sliding panel action logic
         const hamburgerBtn = document.getElementById('hamburger-btn');
         const hamburgerPanel = document.getElementById('hamburger-panel');
 
