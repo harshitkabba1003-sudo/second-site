@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aetheria - Art Deco Solar System</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <style>
         @import url('https://api.fontshare.com/v2/css?f[]=zodiak@300,400,700,900&f[]=bespoke-sans@300,400,500&display=swap');
@@ -19,53 +18,154 @@
             --font-sans: 'Bespoke Sans', sans-serif;
         }
 
-        body {
+        /* Pure CSS resets and strict layout rules */
+        body, html {
             margin: 0;
             padding: 0;
+            width: 100vw;
+            height: 100vh;
             background-color: var(--color-emerald-dark);
             color: var(--color-gold-light);
             font-family: var(--font-sans);
             overflow: hidden;
             -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
         }
 
-        .font-serif {
-            font-family: var(--font-serif);
+        /* Complete Viewport Layout Grid Control */
+        .page-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            isolation: isolate;
         }
 
-        .noise-texture {
+        canvas {
             position: absolute;
             inset: 0;
-            z-index: 5;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .radial-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, var(--color-emerald-dark) 100%);
+            opacity: 0.8;
             pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-            mix-blend-mode: overlay;
+            z-index: 1;
         }
 
-        .text-gold-gradient {
-            background: linear-gradient(135deg, #fef1c7 0%, #d4af37 50%, #8c7322 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Decorative Frame Border Lines */
+        .deco-frame {
+            position: absolute;
+            inset: 24px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            pointer-events: none;
+            z-index: 3;
+        }
+        .corner-ornament {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+        }
+        .top-left { top: -1px; left: -1px; border-top: 2px solid var(--color-gold-base); border-l: 2px solid var(--color-gold-base); }
+        .top-right { top: -1px; right: -1px; border-top: 2px solid var(--color-gold-base); border-r: 2px solid var(--color-gold-base); }
+        .bottom-left { bottom: -1px; left: -1px; border-bottom: 2px solid var(--color-gold-base); border-l: 2px solid var(--color-gold-base); }
+        .bottom-right { bottom: -1px; right: -1px; border-bottom: 2px solid var(--color-gold-base); border-r: 2px solid var(--color-gold-base); }
+
+        /* Foreground Interface Stacking Alignment system */
+        .ui-layer {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 48px;
+            pointer-events: none;
+            z-index: 50;
         }
 
-        /* The custom floating neon setup for your AI Agent Card */
-        .ai-agent-card-custom {
-            background: rgba(10, 46, 34, 0.25) !important;
-            border: 2px solid rgba(168, 85, 247, 0.7) !important;
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 15px rgba(168, 85, 247, 0.2);
-            animation: pulsePurpleGlow 3s infinite ease-in-out;
-            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        /* Header Layout */
+        .top-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .brand-space {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .logo-diamond {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--color-gold-base);
+            transform: rotate(45deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--color-gold-base);
+        }
+        .logo-text {
+            font-family: var(--font-serif);
+            font-size: 20px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--color-gold-light);
         }
 
-        .ai-agent-card-custom:hover {
-            background: rgba(168, 85, 247, 0.35) !important;
-            border-color: #f5f3ff !important;
+        /* MIDDLE VIEWPORT MAIN ROW */
+        .middle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex: 1;
+            margin: 16px 0;
+        }
+
+        /* EXACT MATCH: Your Glowing Purple AI Agent Card Specification */
+        .ai-agent-portal-card {
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 144px;
+            height: 224px;
+            border-radius: 24px;
+            text-decoration: none;
+            background: rgba(10, 46, 34, 0.25);
+            border: 2px solid rgba(168, 85, 247, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            text-align: center;
+        }
+
+        .ai-agent-portal-card:hover {
+            background: rgba(168, 85, 247, 0.35);
+            border-color: #f5f3ff;
             transform: translateY(-5px) scale(1.03);
             box-shadow: 0 0 35px rgba(168, 85, 247, 0.9), 0 0 60px rgba(168, 85, 247, 0.5);
         }
 
-        .ai-agent-text-purple {
+        .shiny-purple-text {
+            font-size: 14px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            line-height: 1.3;
+            margin-top: 12px;
             background: linear-gradient(135deg, #ffffff 0%, #c084fc 40%, #7e22ce 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -73,115 +173,222 @@
             filter: drop-shadow(0 2px 10px rgba(168, 85, 247, 0.6));
         }
 
-        #hamburger-panel {
-            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        /* Center Content Copy */
+        .hero-center-panel {
+            text-align: center;
+            max-w: 500px;
+            margin: 0 auto;
+            pointer-events: auto;
         }
+        .subtitle-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .line-marker { width: 32px; height: 1px; background-color: rgba(212, 175, 55, 0.4); }
+        .subtitle-text { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--color-gold-base); }
+        
+        .main-heading {
+            font-family: var(--font-serif);
+            font-size: 56px;
+            line-height: 1;
+            margin: 0 0 24px 0;
+            letter-spacing: -0.02em;
+        }
+        .gold-gradient-title {
+            background: linear-gradient(135deg, #fef1c7 0%, #d4af37 50%, #8c7322 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        .sub-italic-title {
+            display: block;
+            font-size: 32px;
+            font-weight: 300;
+            color: rgba(254, 241, 199, 0.9);
+            font-style: italic;
+            margin-top: 4px;
+        }
+        .hero-desc { font-size: 13px; font-weight: 300; line-height: 1.6; color: rgba(254, 241, 199, 0.7); max-w: 320px; margin: 0 auto 32px auto; }
+        
+        .btn-commence {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background-color: var(--color-gold-base);
+            color: var(--color-emerald-dark);
+            padding: 14px 28px;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            font-weight: 500;
+            text-decoration: none;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-commence:hover { background-color: var(--color-gold-light); }
+        .square-dot { width: 4px; height: 4px; background-color: var(--color-emerald-dark); transform: rotate(45deg); }
 
-        @keyframes pulsePurpleGlow {
-            0%, 100% { box-shadow: 0 0 20px rgba(168, 85, 247, 0.4), inset 0 0 15px rgba(168, 85, 247, 0.2); }
-            50% { box-shadow: 0 0 35px rgba(168, 85, 247, 0.7), inset 0 0 25px rgba(168, 85, 247, 0.4); }
+        /* Mirror Layout Balance Spacer */
+        .symmetry-spacer { width: 144px; visibility: hidden; }
+
+        /* BOTTOM VIEWPORT ROW */
+        .bottom-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            width: 100%;
         }
+        .btn-about {
+            pointer-events: auto;
+            border: 1px solid var(--color-gold-base);
+            background: rgba(212, 175, 55, 0.5);
+            color: var(--color-gold-light);
+            padding: 8px 24px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-about:hover { background: rgba(212, 175, 55, 0.7); }
+
+        .footer-center-mark { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .vertical-accent-line { width: 1px; height: 32px; background: linear-gradient(to bottom, transparent, rgba(212, 175, 55, 0.5)); }
+        .footer-diamond { width: 6px; height: 6px; border: 1px solid var(--color-gold-base); transform: rotate(45deg); }
+        .footer-info { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(254, 241, 199, 0.5); text-align: right; line-height: 1.5; }
+
+        /* Hamburger Control Structure */
+        .btn-hamburger {
+            pointer-events: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 36px;
+            height: 28px;
+            background: rgba(212, 175, 55, 0.5);
+            border: 1px solid var(--color-gold-base);
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .bar { width: 100%; height: 2px; background-color: var(--color-emerald-dark); transition: all 0.3s; }
+
+        #hamburger-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 320px;
+            background: rgba(4, 20, 15, 0.95);
+            border-right: 1px solid rgba(212, 175, 55, 0.4);
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 48px;
+            gap: 24px;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+        .panel-link {
+            font-family: var(--font-serif);
+            font-size: 24px;
+            letter-spacing: 0.1em;
+            color: var(--color-gold-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .panel-link:hover { color: var(--color-gold-base); }
     </style>
 </head>
 <body>
-    <div class="relative w-screen h-screen overflow-hidden bg-[#04140f]" style="isolation: isolate;">
-        
-        <canvas id="solar-system" class="absolute inset-0 w-full h-full" style="z-index: 0;"></canvas>
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,var(--color-emerald-dark)_100%)] opacity-80 pointer-events-none" style="z-index: 1;"></div>
-        <div class="noise-texture" style="z-index: 2;"></div>
 
-        <div class="absolute inset-6 border border-[#d4af37]/30 pointer-events-none" style="z-index: 3;">
-            <div class="absolute -top-[1px] -left-[1px] w-8 h-8 border-t-2 border-l-2 border-[#d4af37]"></div>
-            <div class="absolute -top-[1px] -right-[1px] w-8 h-8 border-t-2 border-r-2 border-[#d4af37]"></div>
-            <div class="absolute -bottom-[1px] -left-[1px] w-8 h-8 border-b-2 border-l-2 border-[#d4af37]"></div>
-            <div class="absolute -bottom-[1px] -right-[1px] w-8 h-8 border-b-2 border-r-2 border-[#d4af37]"></div>
+    <div class="page-wrapper">
+        
+        <canvas id="solar-system"></canvas>
+        <div class="radial-overlay"></div>
+        <div class="noise-texture"></div>
+        <div class="deco-frame">
+            <div class="corner-ornament top-left"></div>
+            <div class="corner-ornament top-right"></div>
+            <div class="corner-ornament bottom-left"></div>
+            <div class="corner-ornament bottom-right"></div>
         </div>
 
-
-        <div class="absolute inset-0 flex flex-col justify-between p-12 pointer-events-none" style="z-index: 50;">
+        <div class="ui-layer">
             
-            <div class="w-full flex items-center justify-between">
-                <button id="hamburger-btn" class="pointer-events-auto flex flex-col justify-between w-9 h-7 bg-[#d4af37]/50 hover:bg-[#d4af37]/70 p-1.5 rounded border border-[#d4af37] items-center justify-center transition-all duration-300 shadow-md">
-                    <div class="w-5 h-3.5 flex flex-col justify-between group pointer-events-none">
-                        <span class="w-full h-[2px] bg-[#04140f] transition-all duration-300 origin-left group-[.active]:rotate-45 group-[.active]:translate-y-[1px]"></span>
-                        <span class="w-2/3 h-[2px] bg-[#04140f] transition-all duration-300 group-[.active]:opacity-0"></span>
-                        <span class="w-full h-[2px] bg-[#04140f] transition-all duration-300 origin-left group-[.active]:-rotate-45 group-[.active]:-translate-y-[1px]"></span>
-                    </div>
-                </button>
-
-                <div class="flex items-center gap-4 pl-4">
-                    <div class="w-8 h-8 border border-[#d4af37] rotate-45 flex items-center justify-center">
-                        <div class="w-4 h-4 border border-[#d4af37]/60 flex items-center justify-center">
-                            <div class="w-1 h-1 bg-[#d4af37]"></div>
-                        </div>
-                    </div>
-                    <a href="#" class="font-serif text-xl tracking-widest uppercase text-[#fef1c7]">Aetheria</a>
+            <div class="top-row">
+                <div id="hamburger-btn" class="btn-hamburger">
+                    <div class="bar"></div>
+                    <div class="bar" style="width: 70%;"></div>
+                    <div class="bar"></div>
                 </div>
 
-                <button id="nav-inquire" class="hidden sm:flex items-center gap-2 border border-[#d4af37] bg-[#d4af37]/50 px-5 py-1.5 text-xs tracking-[0.15em] uppercase hover:bg-[#d4af37]/70 transition-all duration-500 backdrop-blur-sm pointer-events-auto">
-                    Inquire
-                    <iconify-icon icon="lucide:arrow-up-right" class="text-[#fef1c7]"></iconify-icon>
-                </button>
+                <div class="brand-space">
+                    <div class="logo-diamond"><div class="logo-dot"></div></div>
+                    <a href="#" class="logo-text">Aetheria</a>
+                </div>
+
+                <div style="width: 36px; visibility: hidden;"></div>
             </div>
 
-            <div class="w-full flex-1 flex items-center justify-between my-4">
-                
-                <a href="next-page.html" class="ai-agent-card-custom pointer-events-auto flex flex-col items-center justify-center w-36 h-56 rounded-3xl backdrop-blur-sm shadow-xl text-center">
-                    <iconify-icon icon="lucide:cpu" class="text-3xl text-[#c084fc] mb-3"></iconify-icon>
-                    <span class="ai-agent-text-purple text-sm font-extrabold tracking-[0.15em] uppercase block leading-tight px-3">
-                        Ai<br>agent
-                    </span>
+            <div class="middle-row">
+                <a href="next-page.html" class="ai-agent-portal-card">
+                    <iconify-icon icon="lucide:cpu" style="font-size: 28px; color: #c084fc;"></iconify-icon>
+                    <span class="shiny-purple-text">Ai<br>agent</span>
                 </a>
 
-                <main class="text-center max-w-lg mx-auto pointer-events-auto">
-                    <div class="flex items-center justify-center gap-3 mb-4">
-                        <div class="h-[1px] w-8 bg-[#d4af37]/40"></div>
-                        <span class="text-[10px] tracking-[0.3em] uppercase text-[#d4af37]">The Zenith of Mechanics</span>
-                        <div class="h-[1px] w-8 bg-[#d4af37]/40"></div>
+                <main class="hero-center-panel">
+                    <div class="subtitle-badge">
+                        <div class="line-marker"></div>
+                        <span class="subtitle-text">The Zenith of Mechanics</span>
+                        <div class="line-marker"></div>
                     </div>
                     
-                    <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl leading-none tracking-tight mb-6">
-                        <span class="block text-gold-gradient font-bold">ORRERY</span>
-                        <span class="block text-2xl md:text-4xl font-light italic mt-1 text-[#fef1c7]/90">Magnifica</span>
+                    <h1 class="main-heading">
+                        <span class="gold-gradient-title">ORRERY</span>
+                        <span class="sub-italic-title">Magnifica</span>
                     </h1>
                     
-                    <p class="text-xs md:text-sm leading-relaxed text-[#fef1c7]/70 font-light mb-8 max-w-xs mx-auto">
-                        A masterwork of horological precision and cosmic artistry.
-                    </p>
+                    <p class="hero-desc">A masterwork of horological precision and cosmic artistry.</p>
 
-                    <a href="#" class="btn-gold inline-flex items-center justify-center gap-3 bg-[#d4af37] text-[#04140f] px-6 py-3.5 uppercase text-[10px] tracking-[0.2em] font-medium hover:bg-[#fef1c7] shadow-[0_0_30px_rgba(212,175,55,0.2)]">
+                    <a href="#" class="btn-commence">
                         Commence Journey
-                        <div class="w-1 h-1 bg-[#04140f] rotate-45"></div>
+                        <div class="square-dot"></div>
                     </a>
                 </main>
 
-                <div class="w-36 invisible"></div>
+                <div class="symmetry-spacer"></div>
             </div>
 
-            <div class="w-full flex items-end justify-between">
-                <button class="pointer-events-auto border border-[#d4af37] bg-[#d4af37]/50 hover:bg-[#d4af37]/70 px-6 py-2 rounded text-xs font-semibold tracking-[0.15em] uppercase text-[#fef1c7] transition-all duration-500 backdrop-blur-sm shadow-md">
-                    About
-                </button>
+            <div class="bottom-row">
+                <button class="btn-about">About</button>
 
-                <div class="flex flex-col items-center gap-2 mb-2">
-                    <div class="h-8 w-[1px] bg-gradient-to-b from-transparent to-[#d4af37]/50"></div>
-                    <div class="w-1.5 h-1.5 border border-[#d4af37] rotate-45"></div>
+                <div class="footer-center-mark">
+                    <div class="vertical-accent-line"></div>
+                    <div class="footer-diamond"></div>
                 </div>
 
-                <div class="text-[10px] tracking-widest uppercase text-[#fef1c7]/50 text-right">
+                <div class="footer-info">
                     <span>Est. 1927</span><br/>
-                    <span class="text-[#d4af37]">Metropolis</span>
+                    <span style="color: var(--color-gold-base);">Metropolis</span>
                 </div>
             </div>
 
         </div>
 
-        <div id="hamburger-panel" class="fixed top-0 left-0 h-full w-80 bg-[#04140f]/95 border-r border-[#d4af37]/40 -translate-x-full flex flex-col justify-center p-12 gap-6 pointer-events-auto backdrop-blur-md" style="z-index: 100;">
-            <div class="absolute top-24 left-12 h-[1px] w-12 bg-[#d4af37]/40"></div>
-            <a href="#" class="font-serif text-2xl tracking-widest text-[#fef1c7] hover:text-[#d4af37] transition-colors duration-300 py-2">Home</a>
-            <a href="#" class="font-serif text-2xl tracking-widest text-[#fef1c7] hover:text-[#d4af37] transition-colors duration-300 py-2">Ai agents</a>
-            <a href="#" class="font-serif text-2xl tracking-widest text-[#fef1c7] hover:text-[#d4af37] transition-colors duration-300 py-2">About ai agent</a>
-            <div class="w-2 h-2 border border-[#d4af37] rotate-45 mt-4"></div>
+        <div id="hamburger-panel">
+            <a href="#" class="panel-link">Home</a>
+            <a href="#" class="panel-link">Ai agents</a>
+            <a href="#" class="panel-link">About ai agent</a>
         </div>
 
     </div>
@@ -201,213 +408,3 @@
             core: '#fef1c7',
             coreShadow: '#d4af37',
             orbitLine: 'rgba(212, 175, 55, 0.25)',
-            orbitDecor: 'rgba(212, 175, 55, 0.6)',
-            planets: [
-                ['#fef1c7', '#d4af37', '#8c7322'],
-                ['#6ee7b7', '#10b981', '#047857'],
-                ['#fca5a5', '#ef4444', '#b91c1c'],
-                ['#e9d5ff', '#a855f7', '#6b21a8'],
-                ['#bfdbfe', '#3b82f6', '#1d4ed8'],
-                ['#fef08a', '#eab308', '#a16207']
-            ]
-        };
-        const orbitCount = 6;
-        const baseTilt = 0.4;
-        const planets = [];
-
-        function resize() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width = width * dpr;
-            canvas.height = height * dpr;
-            ctx.scale(dpr, dpr);
-            centerX = width / 2;
-            centerY = height / 2;
-        }
-
-        function initPlanets() {
-            planets.length = 0;
-            const maxRadius = Math.min(width, height) * 0.9;
-            const minRadius = Math.min(width, height) * 0.15;
-            for (let i = 0; i < orbitCount; i++) {
-                const targetR = minRadius + ((maxRadius - minRadius) / orbitCount) * (i + 1);
-                const startR = targetR + Math.max(width, height) * 1.5;
-                planets.push({
-                    orbitIndex: i,
-                    targetRadius: targetR,
-                    startRadius: startR,
-                    currentRadius: startR,
-                    angle: Math.random() * Math.PI * 2,
-                    speed: (Math.random() * 0.002 + 0.001) * (i % 2 === 0 ? 1 : -1),
-                    size: Math.random() * 8 + 6,
-                    sides: Math.floor(Math.random() * 3) * 2 + 4,
-                    colorSet: colors.planets[i % colors.planets.length],
-                    rotation: Math.random() * Math.PI,
-                    rotationSpeed: (Math.random() * 0.02 - 0.01)
-                });
-            }
-        }
-
-        function easeInOutQuart(x) {
-            return x < 0.5 ? 8 * x * x * x * x : 1 - Math.pow(-2 * x + 2, 4) / 2;
-        }
-
-        function drawJewel(x, y, radius, sides, colorSet, rotation, scale) {
-            const [light, mid, dark] = colorSet;
-            const r = radius * scale;
-            
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(rotation);
-            ctx.beginPath();
-            for (let i = 0; i < sides; i++) {
-                const angle = (i * 2 * Math.PI) / sides;
-                ctx.lineTo(r * Math.cos(angle), r * Math.sin(angle));
-            }
-            ctx.closePath();
-            ctx.fillStyle = dark;
-            ctx.fill();
-
-            for (let i = 0; i < sides; i++) {
-                const angle1 = (i * 2 * Math.PI) / sides;
-                const angle2 = ((i + 1) * 2 * Math.PI) / sides;
-                
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.lineTo(r * Math.cos(angle1), r * Math.sin(angle1));
-                ctx.lineTo(r * Math.cos(angle2), r * Math.sin(angle2));
-                ctx.closePath();
-                const facetAngle = angle1 + (Math.PI / sides) + rotation;
-                const normalizedAngle = (facetAngle % (Math.PI * 2) + Math.PI * 2) % (Math.PI * 2);
-                if (normalizedAngle > Math.PI && normalizedAngle < Math.PI * 1.5) {
-                    ctx.fillStyle = light;
-                } else if (normalizedAngle >= Math.PI * 1.5 || normalizedAngle < Math.PI * 0.5) {
-                    ctx.fillStyle = mid;
-                } else {
-                    ctx.fillStyle = dark;
-                }
-                ctx.fill();
-                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                ctx.lineWidth = 0.5;
-                ctx.stroke();
-            }
-
-            ctx.beginPath();
-            for (let i = 0; i < sides; i++) {
-                const angle = (i * 2 * Math.PI) / sides;
-                ctx.lineTo(r * 0.4 * Math.cos(angle), r * 0.4 * Math.sin(angle));
-            }
-            ctx.closePath();
-            ctx.fillStyle = light;
-            ctx.fill();
-            ctx.restore();
-        }
-
-        function drawSunburst(progress) {
-            const baseSize = Math.min(width, height) * 0.08;
-            const size = baseSize + Math.sin(time * 0.05) * (baseSize * 0.05);
-            const numRays = 16;
-            
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.rotate(time * 0.005);
-
-            ctx.beginPath();
-            ctx.arc(0, 0, size * 2, 0, Math.PI * 2);
-            const glow = ctx.createRadialGradient(0, 0, size * 0.5, 0, 0, size * 2);
-            glow.addColorStop(0, `rgba(212, 175, 55, ${0.4 * progress})`);
-            glow.addColorStop(1, 'rgba(212, 175, 55, 0)');
-            ctx.fillStyle = glow;
-            ctx.fill();
-
-            for (let i = 0; i < numRays; i++) {
-                const angle = (i * 2 * Math.PI) / numRays;
-                const isLong = i % 2 === 0;
-                const rayLength = size * (isLong ? 1.8 : 1.3);
-                const rayWidth = size * (isLong ? 0.15 : 0.1);
-                
-                ctx.save();
-                ctx.rotate(angle);
-                ctx.beginPath();
-                ctx.moveTo(0, -rayWidth);
-                ctx.lineTo(rayLength, 0);
-                ctx.lineTo(0, rayWidth);
-                ctx.closePath();
-                const rayGrad = ctx.createLinearGradient(0, -rayWidth, 0, rayWidth);
-                rayGrad.addColorStop(0, colors.core);
-                rayGrad.addColorStop(0.5, colors.coreShadow);
-                rayGrad.addColorStop(1, colors.bg);
-                ctx.fillStyle = rayGrad;
-                ctx.fill();
-                ctx.restore();
-            }
-
-            ctx.rotate(-time * 0.01);
-            drawJewel(0, 0, size * 0.8, 8, [colors.core, colors.coreShadow, '#8c7322'], 0, 1);
-            ctx.restore();
-        }
-
-        function drawDecoOrbit(radius, progress, index) {
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.strokeStyle = `rgba(212, 175, 55, ${0.15 * progress})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.ellipse(0, 0, radius, radius * baseTilt, 0, 0, Math.PI * 2);
-            ctx.stroke();
-
-            if (progress > 0.8) {
-                const nodeCount = (index + 1) * 4;
-                ctx.fillStyle = `rgba(212, 175, 55, ${0.5 * progress})`;
-                for(let i=0; i<nodeCount; i++) {
-                    const angle = (i * Math.PI * 2) / nodeCount + (time * 0.001 * (index%2===0?1:-1));
-                    const nx = Math.cos(angle) * radius;
-                    const ny = Math.sin(angle) * radius * baseTilt;
-                    ctx.save();
-                    ctx.translate(nx, ny);
-                    ctx.rotate(Math.PI / 4);
-                    ctx.fillRect(-2, -2, 4, 4);
-                    ctx.restore();
-                }
-            }
-            ctx.restore();
-        }
-
-        function drawDecoBackground(progress) {
-            if (progress < 0.1) return;
-            ctx.strokeStyle = `rgba(212, 175, 55, ${0.03 * progress})`;
-            ctx.lineWidth = 1;
-            ctx.save();
-            ctx.translate(centerX, centerY);
-            ctx.beginPath();
-            for(let i=0; i<36; i++) {
-                const angle = (i * Math.PI * 2) / 36;
-                ctx.moveTo(0,0);
-                ctx.lineTo(Math.cos(angle)*width, Math.sin(angle)*width);
-            }
-            ctx.stroke();
-            ctx.restore();
-        }
-
-        function animate(timestamp) {
-            if (!collapseStartTime) collapseStartTime = timestamp;
-            const elapsed = timestamp - collapseStartTime;
-            
-            let collapseProgress = 0;
-            if (elapsed < COLLAPSE_DURATION) {
-                const rawProgress = elapsed / COLLAPSE_DURATION;
-                collapseProgress = easeInOutQuart(rawProgress);
-            } else {
-                isCollapsing = false;
-                collapseProgress = 1;
-            }
-
-            ctx.fillStyle = colors.bg;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            drawDecoBackground(collapseProgress);
-
-            const drawnOrbits = new Set();
-            planets.forEach(p => {
-                p.currentRadius = p.startRadius + (p.targetRadius - p.start
